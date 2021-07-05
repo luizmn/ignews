@@ -1,7 +1,10 @@
 import styles from "./styles.module.scss";
 import { SiBuymeacoffee } from "react-icons/si"
 
-export function SubscribeButton() {
+interface SubscribeButtonProps {
+  priceId: string;
+}
+export function SubscribeButton({priceId}: SubscribeButtonProps) {
   return (
     <button className={styles.subscribeButton}>
       <SiBuymeacoffee />
