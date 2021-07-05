@@ -1,16 +1,28 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../styles/Home.module.scss';
+import { SubscribeButton } from '../components/SubscribeButton';
+import styles from './home.module.scss';
+import avatarImg from '/public/images/avatar.svg';
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Ig.News</title>
+        <title>Home | Ig.News</title>
       </Head>
-      <div className={styles.container}>
-        <h1>Index . js pa ge</h1>
-      </div>
+
+      <main className={styles.contentContainer}>
+        <section className={styles.hero}>
+          <span>👏 Hey, Welcome</span>
+          <h1>News about the <span>React</span> world.</h1>
+          <p>
+            Get access to all the publication <br />
+            <span>for $9.90/month</span>
+          </p>
+          <SubscribeButton />
+        </section>
+        <Image src={avatarImg} alt="Girl coding" />
+      </main>
     </>
   )
 }
