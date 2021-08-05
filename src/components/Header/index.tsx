@@ -2,6 +2,8 @@ import Image from "next/image";
 import logoImg from "/public/images/logo.svg"
 import styles from "./styles.module.scss";
 import { SignInButton } from "../SignInButton";
+import { ActiveLink } from "../ActiveLink";
+
 
 
 export function Header() {
@@ -9,10 +11,14 @@ export function Header() {
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
         <Image src={logoImg} alt="App Logo" />
-        <nav>
-          <a className={styles.active}>Home</a>
-          <a>Posts</a>
-        </nav>
+          <nav>
+            <ActiveLink activeClassName={styles.active} href="/">
+              <a>Home</a>
+            </ActiveLink>
+            <ActiveLink activeClassName={styles.active} href="/posts">
+              <a>Posts</a>
+            </ActiveLink>
+          </nav>
         <SignInButton />
       </div>
     </header>

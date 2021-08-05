@@ -1,7 +1,23 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { getPrismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
+import Prismic from '@prismicio/client';
+import { RichText } from 'prismic-dom';
 
-export default function Posts() {
+type Post = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  updatedAt: string;
+}
+
+interface PostsProps {
+  posts: Post[];
+}
+
+
+export default function Posts({ posts }: PostsProps) {
 
   return (
     <>
@@ -11,23 +27,53 @@ export default function Posts() {
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          <a href="#">
-            <time>05 de agosto de 2021</time>
-            <strong>Creating a simple post</strong>
-            <p>The maximum file size allowed for all media (photos, videos or voice messages) to be sent or forwarded through WhatsApp is 16 MB on all platforms. On most phones, this will equal from about 90 seconds to 3 minutes of video.</p>
-          </a>
-          <a href="#">
-            <time>05 de agosto de 2021</time>
-            <strong>Creating a simple post</strong>
-            <p>The maximum file size allowed for all media (photos, videos or voice messages) to be sent or forwarded through WhatsApp is 16 MB on all platforms. On most phones, this will equal from about 90 seconds to 3 minutes of video.</p>
-          </a>
-          <a href="#">
-            <time>05 de agosto de 2021</time>
-            <strong>Creating a simple post</strong>
-            <p>The maximum file size allowed for all media (photos, videos or voice messages) to be sent or forwarded through WhatsApp is 16 MB on all platforms. On most phones, this will equal from about 90 seconds to 3 minutes of video.</p>
-          </a>
+          { posts.map(post => (
+            <a href="#" key={post.slug}>
+              <time>{post.updatedAt}</time>
+              <strong>{post.title}</strong>
+              <p>{post.excerpt}</p>
+            </a>
+          ))}
+
+      
         </div>
       </main>
     </>
   );
+}
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const response = await prismic.query([
+    Prismic.predicates.at('document.type','post')
+    
+  ], {
+    fetch: ['post.data.title', 'postcontent'],
+    //fetch: ['post.title'],
+    //fetch: ['postcontent'],
+    pageSize: 50,
+  })
+
+  const posts = response.results.map(post => {
+
+    return {
+      slug: post.id,
+      title: RichText.asText(post.data.title),
+       excerpt: post.data.postcontent.find(postcontent => postcontent.type === 'paragraph')?.text ?? '',
+      updatedAt: new Date(post.last_publication_date).toLocaleDateString('PT-BR',
+        { 
+          day: '2-digit',
+          month: 'long',  
+          year: 'numeric' 
+        })
+      };
+    });
+
+  return {
+    props: {
+      posts
+    }
+  }
 }
