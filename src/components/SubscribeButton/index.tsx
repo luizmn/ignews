@@ -4,6 +4,7 @@ import { useSession, signIn } from "next-auth/client";
 import { stripe } from "../../services/stripe";
 import { api } from "../../services/api";
 import { getStripeJs } from "../../services/stripe-js";
+import router from "next/router";
 
 
 interface SubscribeButtonProps {
@@ -18,6 +19,12 @@ export function SubscribeButton({priceId}: SubscribeButtonProps) {
       signIn('github');
       return;
     }
+
+    if (session.activeSubscription) {
+      router.push('/posts');
+      return;
+    }
+
     try {
       const response = await api.post('/subscribe');
 
