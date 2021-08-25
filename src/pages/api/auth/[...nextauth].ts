@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth';
-// import { signIn } from 'next-auth/client';
 import Providers from 'next-auth/providers';
 
 import { fauna } from "../../../services/fauna";
@@ -35,6 +34,7 @@ export default NextAuth({
     async session(session) {
 
       try {
+
         const userActiveSubscription = await fauna.query(
           q.Get(
             q.Intersection([
@@ -67,7 +67,7 @@ export default NextAuth({
           ...session,
           activeSubscription: null,
         }
-        
+
       }
     },
     async signIn(user, account, profile) {
@@ -87,7 +87,7 @@ export default NextAuth({
           ),
           q.Create(
             q.Collection('users'),
-            { data: { email } } 
+            { data: { email } }
           ),
           q.Get(
             q.Match(
@@ -101,7 +101,7 @@ export default NextAuth({
      } catch {
       return false;
      }
-     
+
     },
   }
   // Optional SQL or MongoDB database to persist users
