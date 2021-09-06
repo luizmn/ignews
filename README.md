@@ -16,10 +16,10 @@ JAMStack:
 - ReactJS
 - [Next.js](https://nextjs.org/)
 - SASS
-- [Stripe] (https://stripe.com/en-pt) - A payments platform
+- [Stripe](https://stripe.com/en-pt) - A payments platform
 - [NextAuth](https://next-auth.js.org) - For GitHub authentication
-- [FaunaDB] (https://fauna.com) - The data API for modern applications
-- [Prismic CMS] (https://prismic.io) - The Headless Website Builder for Jamstack
+- [FaunaDB](https://fauna.com) - The data API for modern applications
+- [Prismic CMS](https://prismic.io) - The Headless Website Builder for Jamstack
 
 ## Getting Started
 
