@@ -1,11 +1,14 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { getSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import { getPrismicClient } from "../../../services/prismic";
 import { RichText } from 'prismic-dom';
 import Head from "next/head";
+import Link from "next/link";
 
 import styles from "../post.module.scss";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface PostPreviewProps {
   post: {
@@ -20,6 +23,15 @@ interface PostPreviewProps {
   }
 }
 export default function PostPreview({ post }: PostPreviewProps) {
+  const [session] = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.activeSubscription) {
+      router.push(`/posts/${post.slug}`)
+    }
+  }, [session])
+
   return (
     <>
       <Head>
@@ -37,9 +49,16 @@ export default function PostPreview({ post }: PostPreviewProps) {
             alt={post.imgAlt}
           />
           <div
-            className={styles.postContent}
+            className={`${styles.postContent} ${styles.previewContent}`}
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
+
+          <div className={styles.continueReading}>
+            Want to continue reading?
+            <Link href="/">
+              <a href="">Subscribe now 🤗</a>
+            </Link>
+          </div>
         </article>
       </main>
     </>
@@ -47,6 +66,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+
   return {
     paths: [],
     fallback: 'blocking',
@@ -64,7 +84,7 @@ export const getStaticProps: GetStaticProps = async ({  params }) => {
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    content: RichText.asHtml(response.data.postcontent),
+    content: RichText.asHtml(response.data.postcontent.splice(0, 3)),
     img: response.data.postimage.url,
     imgAlt: response.data.postimage.alt,
     imgWidth: response.data.postimage.dimensions.width,
@@ -82,6 +102,7 @@ export const getStaticProps: GetStaticProps = async ({  params }) => {
   return {
     props: {
       post
-    }
+    },
+    revalidate: 60 * 30, // revalidate after 30 minutes
   }
 }

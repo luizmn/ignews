@@ -1,4 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project
+## Rocketseat Ignite React JS
+
+## IgNews
+
+A subscription type news platform. Guests only can see posts preview.
+Uses Next.js integration with NextAuth, for GitHub login and payments are made using Stripe API.
+
+## IgNews
+
+Página de notícias no modelo de assinatura. Visitantes somente podem visualizar um preview dos posts.
+Utiliza a integração do Next.js com NextAuth para realizar autenticação com o login do GitHub e realização de pagamentos através da API do Stripe.
+
+JAMStack:
+
+- Typescript
+- ReactJS
+- [Next.js](https://nextjs.org/)
+- SASS
+- [Stripe] (https://stripe.com/en-pt) - A payments platform
+- [NextAuth](https://next-auth.js.org) - For GitHub authentication
+- [FaunaDB] (https://fauna.com) - The data API for modern applications
+- [Prismic CMS] (https://prismic.io) - The Headless Website Builder for Jamstack
 
 ## Getting Started
 
@@ -12,18 +33,16 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Part of Rocketseat Ignite ReactJS path - Module 3
+**Note:** App working but still in construction.
 
-IgNews
+**Observação:** App funcionando mas ainda em construção.
 
-## Learn More
+<img
+  src="https://raw.githubusercontent.com/luizmn/ignews/master/public/screen_1.jpg"
+  alt="Ignews Screen 1"
+/>
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Rocketseat](https://rocketseat.com.br)
-
-## IgNews
-
-A News platform
+<img
+  src="https://raw.githubusercontent.com/luizmn/ignews/master/public/screen_2.jpg"
+  alt="Ignews Screen 2"
+/>
